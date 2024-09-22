@@ -14,6 +14,12 @@ public class PlayerModel {
     private int lives;
     private Image texture;
 
+    private int keys = 0;
+
+    public boolean hasKey() {
+        return keys > 0;
+    }
+
     private enum state {
         ALIVE, DEAD
     }
@@ -75,6 +81,18 @@ public class PlayerModel {
     public void setCol(int col) {
         this.col = col;
         x = col * cellSize;
+    }
+
+    public void addKey() {
+        keys++;
+    }
+
+    public void removeKey() {
+        keys--;
+    }
+
+    public void resetKeys() {
+        keys = 0;
     }
 
     //int x and y are the coordinates to return the player to on death

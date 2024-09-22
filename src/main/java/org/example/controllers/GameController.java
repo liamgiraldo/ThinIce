@@ -17,6 +17,15 @@ public class GameController implements ActionListener, KeyListener {
     private PlayerModel player;
     private TextureController textureController;
 
+    private int scoreBeforeLevel = 0;
+    private int score = 0;
+
+    /**
+     * TODO list:
+     * 4. Add push blocks
+     * */
+
+
     private int currentBoardIndex;
     private Timer gameLoop;
 
@@ -47,6 +56,9 @@ public class GameController implements ActionListener, KeyListener {
         if(hasPlayerWon()){
             currentBoardIndex++;
 
+            score+= 100;
+            scoreBeforeLevel = score;
+
             if(currentBoardIndex >= boards.size()){
                 System.out.println("Game Over!");
                 stop();
@@ -59,10 +71,12 @@ public class GameController implements ActionListener, KeyListener {
 //            player.setY(getCurrentBoard().getStartingY());
         }
 
-        if(isPlayerSurroundedByAnythingButIce(player.getRow(), player.getCol())){
+        if(isPlayerSurroundedByWaterOrWalls(player.getRow(), player.getCol())){
             player.setRow(getCurrentBoard().getStartingY());
             player.setCol(getCurrentBoard().getStartingX());
             getCurrentBoard().reset();
+            player.resetKeys();
+            score = scoreBeforeLevel;
         }
     }
 
@@ -90,8 +104,66 @@ public class GameController implements ActionListener, KeyListener {
     }
 
     private void iceToWater(){
-        if(getCurrentBoard().getCell(player.getCol(), player.getRow()).getType() == CellModel.CellType.ICE)
+        if(getCurrentBoard().getCell(player.getCol(), player.getRow()).getType() == CellModel.CellType.ICE) {
             getCurrentBoard().getCell(player.getCol(), player.getRow()).setType(CellModel.CellType.WATER);
+            score++;
+        }
+    }
+
+    private void thickIcetoIce(){
+        if(getCurrentBoard().getCell(player.getCol(), player.getRow()).getType() == CellModel.CellType.THICKICE) {
+            getCurrentBoard().getCell(player.getCol(), player.getRow()).setType(CellModel.CellType.ICE);
+            score++;
+        }
+    }
+
+    private void moneyToIce(){
+        if(getCurrentBoard().getCell(player.getCol(), player.getRow()).getType() == CellModel.CellType.MONEY) {
+            getCurrentBoard().getCell(player.getCol(), player.getRow()).setType(CellModel.CellType.ICE);
+            score+=50;
+        }
+    }
+
+    private void keyToIce(){
+        if(getCurrentBoard().getCell(player.getCol(), player.getRow()).getType() == CellModel.CellType.KEY) {
+            getCurrentBoard().getCell(player.getCol(), player.getRow()).setType(CellModel.CellType.ICE);
+            //maybe give score im not sure
+            player.addKey();
+        }
+    }
+
+    private void doorToIce(){
+        if(getCurrentBoard().getCell(player.getCol(), player.getRow()).getType() == CellModel.CellType.DOOR && player.hasKey()) {
+            getCurrentBoard().getCell(player.getCol(), player.getRow()).setType(CellModel.CellType.ICE);
+            //maybe give score im not sure
+            player.removeKey();
+        }
+    }
+
+    private void pushIceBlock(int previousRow, int previousCol){
+        //previousRow and previousCol are where the player was before they stepped on the push block.
+        //we need this info to determine the direction of which to push the block
+        if(getCurrentBoard().getCell(player.getCol(), player.getRow()).getType() == CellModel.CellType.PUSHBLOCK){
+            CellModel pushblock = getCurrentBoard().getCell(player.getCol(), player.getRow());
+            int pushblockRow = player.getRow();
+            int pushblockCol = player.getCol();
+            int pushblockRowDirection = (pushblockRow - previousRow);
+            int pushblockColDirection = (pushblockCol - previousCol);
+
+            //recursively go down that direction until we hit a wall, door, or water
+            while(getCurrentBoard().getCell(pushblockCol + pushblockColDirection, pushblockRow + pushblockRowDirection).getType() == CellModel.CellType.ICE){
+                pushblockRow += pushblockRowDirection;
+                pushblockCol += pushblockColDirection;
+            }
+            //place the block in the cell before that wall or water
+            getCurrentBoard().getCell(pushblockCol, pushblockRow).setType(CellModel.CellType.PUSHBLOCK);
+            //set the current cell to ice
+            pushblock.setType(CellModel.CellType.ICE);
+
+            //put the player back in the cell they were in before they pushed the block
+            player.setRow(previousRow);
+            player.setCol(previousCol);
+        }
     }
 
     @Override
@@ -99,25 +171,53 @@ public class GameController implements ActionListener, KeyListener {
         // Handle key press events
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             if (canLegallyMove(player.getRow() - 1, player.getCol())) {
+                int previousRow = player.getRow();
+                int previousCol = player.getCol();
                 iceToWater();
+                thickIcetoIce();
                 player.moveUp();
+                moneyToIce();
+                keyToIce();
+                doorToIce();
+                pushIceBlock(previousRow, previousCol);
             }
 //            player.moveUp();
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             if (canLegallyMove(player.getRow() + 1, player.getCol())) {
+                int previousRow = player.getRow();
+                int previousCol = player.getCol();
                 iceToWater();
+                thickIcetoIce();
                 player.moveDown();
+                moneyToIce();
+                keyToIce();
+                doorToIce();
+                pushIceBlock(previousRow, previousCol);
             }
 //            player.moveDown();
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             if(canLegallyMove(player.getRow(), player.getCol() - 1)) {
+                int previousRow = player.getRow();
+                int previousCol = player.getCol();
                 iceToWater();
+                thickIcetoIce();
                 player.moveLeft();
+                moneyToIce();
+                keyToIce();
+                doorToIce();
+                pushIceBlock(previousRow, previousCol);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             if(canLegallyMove(player.getRow(), player.getCol() + 1)) {
+                int previousRow = player.getRow();
+                int previousCol = player.getCol();
                 iceToWater();
+                thickIcetoIce();
                 player.moveRight();
+                moneyToIce();
+                keyToIce();
+                doorToIce();
+                pushIceBlock(previousRow, previousCol);
             }
         }
         System.out.println("Player row: " + player.getRow() + ", col: " + player.getCol());
@@ -130,6 +230,10 @@ public class GameController implements ActionListener, KeyListener {
         }
         //if the cell is water, we can't move there
         if(getCurrentBoard().getCell(col, row).getType() == CellModel.CellType.WATER) {
+            return false;
+        }
+        //if the cell we are moving into is a door, and we do not have a key, we can't move into it
+        if(getCurrentBoard().getCell(col, row).getType() == CellModel.CellType.DOOR && !player.hasKey()) {
             return false;
         }
 
@@ -149,17 +253,16 @@ public class GameController implements ActionListener, KeyListener {
                 getCurrentBoard().getCell(col, row + 1).getType() == CellModel.CellType.WATER;
     }
 
-    private boolean isPlayerSurroundedByAnythingButIce(int row, int col) {
-        //check top, left, right, bottom
-        //this doesn't include tiles that are end tiles
-        return getCurrentBoard().getCell(col, row - 1).getType() != CellModel.CellType.ICE &&
-                getCurrentBoard().getCell(col, row - 1).getType() != CellModel.CellType.END &&
-                getCurrentBoard().getCell(col - 1, row).getType() != CellModel.CellType.ICE &&
-                getCurrentBoard().getCell(col - 1, row).getType() != CellModel.CellType.END &&
-                getCurrentBoard().getCell(col + 1, row).getType() != CellModel.CellType.ICE &&
-                getCurrentBoard().getCell(col + 1, row).getType() != CellModel.CellType.END &&
-                getCurrentBoard().getCell(col, row + 1).getType() != CellModel.CellType.ICE &&
-                getCurrentBoard().getCell(col, row + 1).getType() != CellModel.CellType.END;
+    private boolean isPlayerSurroundedByWaterOrWalls(int row, int col){
+        //if the player is surrounded by water or walls on all sides, return true
+        return (getCurrentBoard().getCell(col, row - 1).getType() == CellModel.CellType.WATER ||
+                getCurrentBoard().getCell(col, row - 1).getType() == CellModel.CellType.WALL) &&
+                (getCurrentBoard().getCell(col - 1, row).getType() == CellModel.CellType.WATER ||
+                getCurrentBoard().getCell(col - 1, row).getType() == CellModel.CellType.WALL) &&
+                (getCurrentBoard().getCell(col + 1, row).getType() == CellModel.CellType.WATER ||
+                getCurrentBoard().getCell(col + 1, row).getType() == CellModel.CellType.WALL) &&
+                (getCurrentBoard().getCell(col, row + 1).getType() == CellModel.CellType.WATER ||
+                getCurrentBoard().getCell(col, row + 1).getType() == CellModel.CellType.WALL);
     }
 
     @Override

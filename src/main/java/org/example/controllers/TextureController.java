@@ -12,6 +12,11 @@ public class TextureController {
     private Image waterImage;
     private Image emptyImage;
     private Image endImage;
+    private Image keyImage;
+    private Image doorImage;
+    private Image moneyImage;
+    private Image pushBlockImage;
+    private Image thickIceImage;
 
     public TextureController() {
         playerImage = loadImage("puffle.png");
@@ -20,6 +25,11 @@ public class TextureController {
         waterImage = loadImage("water.png");
         emptyImage = loadImage("empty.png");
         endImage = loadImage("end.png");
+        keyImage = loadImage("key.png");
+        doorImage = loadImage("keyhole.png");
+        moneyImage = loadImage("money.png");
+        pushBlockImage = loadImage("pushblock.png");
+        thickIceImage = loadImage("thickice.png");
     }
 
     private Image loadImage(String path) {
@@ -68,6 +78,16 @@ public class TextureController {
                 return emptyImage;
             case END:
                 return endImage;
+            case KEY:
+                return keyImage;
+            case DOOR:
+                return doorImage;
+            case MONEY:
+                return moneyImage;
+            case PUSHBLOCK:
+                return pushBlockImage;
+            case THICKICE:
+                return thickIceImage;
             default:
                 return null;
         }

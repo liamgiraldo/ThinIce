@@ -10,7 +10,7 @@ public class CellModel {
     private int y;
 
     public enum CellType {
-        ICE, WALL, WATER, EMPTY, END, START
+        ICE, WALL, WATER, EMPTY, END, START, KEY, DOOR, MONEY, PUSHBLOCK, THICKICE
     }
     private CellType type;
     public CellModel(CellType type, int x, int y) {

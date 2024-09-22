@@ -20,7 +20,7 @@ public class LevelLoader {
     }
 
     public ArrayList<BoardModel> loadLevels() {
-        String[] levelFiles = {"level1.yml", "level2.yml", "level3.yml"}; // List files explicitly
+        String[] levelFiles = {"level1.yml", "level2.yml", "level3.yml", "level4.yml", "level5.yml", "level6.yml" }; // List files explicitly
 
         for (String fileName : levelFiles) {
             // Load the file as a BoardModel
@@ -93,6 +93,21 @@ public class LevelLoader {
                         cellType = CellModel.CellType.ICE;
                         startingX = x;
                         startingY = y;
+                        break;
+                    case 7:
+                        cellType = CellModel.CellType.KEY;
+                        break;
+                    case 8:
+                        cellType = CellModel.CellType.DOOR;
+                        break;
+                    case 9:
+                        cellType = CellModel.CellType.MONEY;
+                        break;
+                    case 10:
+                        cellType = CellModel.CellType.PUSHBLOCK;
+                        break;
+                    case 11:
+                        cellType = CellModel.CellType.THICKICE;
                         break;
                     default:
                         cellType = CellModel.CellType.EMPTY;
