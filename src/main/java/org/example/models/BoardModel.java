@@ -16,6 +16,9 @@ public class BoardModel {
     private int endX;
     private int endY;
 
+    private static int xOffset;
+    private static int yOffset;
+
     public BoardModel(CellModel[][] cells, int startingX, int startingY) {
         this.cells = cells;
         this.originalCells = new CellModel[cells.length][cells[0].length];
@@ -40,7 +43,7 @@ public class BoardModel {
 //                }
                 CellModel.CellType type = cells[i][j].getType();
                 Image image = textureController.getImageWithCellType(type);
-                cells[i][j].draw(g, image);
+                cells[i][j].draw(g, image, xOffset, yOffset);
             }
         }
     }
@@ -107,5 +110,18 @@ public class BoardModel {
                 cells[i][j] = new CellModel(originalCells[i][j].getType(), j, i);
             }
         }
+    }
+
+    public void resizeTiles(int newTileSize) {
+        for(int i = 0; i < cells.length; i++){
+            for(int j = 0; j < cells[i].length; j++){
+                cells[i][j].resize(newTileSize);
+            }
+        }
+    }
+
+    public void setOffset(int xOffset, int yOffset) {
+        BoardModel.xOffset = xOffset;
+        BoardModel.yOffset = yOffset;
     }
 }

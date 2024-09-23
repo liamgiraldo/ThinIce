@@ -33,7 +33,8 @@ public class ThinIce2 extends JPanel {
         this.textureController = new TextureController();
 
         setPreferredSize(new Dimension(width, height));
-        setBackground(Color.BLACK);
+        Color color = new Color(178, 218, 255);
+        setBackground(color);
 
         gameController = new GameController(boards, textureController);
 
@@ -55,9 +56,25 @@ public class ThinIce2 extends JPanel {
         }
     }
 
+    public void resizeTiles(int newPanelWidth, int newPanelHeight) {
+        int newTileSize = Math.min(newPanelWidth / columns, newPanelHeight / rows);
+        gameController.resizeTiles(newTileSize);
+
+        //We also want to make sure that the game is centered, so we might need to offset
+        int newWidth = columns * newTileSize;
+        int newHeight = rows * newTileSize;
+        int xOffset = (newPanelWidth - newWidth)/2;
+        int yOffset = (newPanelHeight - newHeight)/2;
+        gameController.setOffset(xOffset, yOffset);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         gameController.draw(g);
+    }
+
+    public GameController getGameController() {
+        return gameController;
     }
 }

@@ -72,12 +72,16 @@ public class GameController implements ActionListener, KeyListener {
         }
 
         if(isPlayerSurroundedByWaterOrWalls(player.getRow(), player.getCol())){
-            player.setRow(getCurrentBoard().getStartingY());
-            player.setCol(getCurrentBoard().getStartingX());
-            getCurrentBoard().reset();
-            player.resetKeys();
-            score = scoreBeforeLevel;
+            restartLevel();
         }
+    }
+
+    public void restartLevel(){
+        player.setRow(getCurrentBoard().getStartingY());
+        player.setCol(getCurrentBoard().getStartingX());
+        getCurrentBoard().reset();
+        player.resetKeys();
+        score = scoreBeforeLevel;
     }
 
     public boolean hasPlayerWon() {
@@ -272,5 +276,19 @@ public class GameController implements ActionListener, KeyListener {
 
     private BoardModel getCurrentBoard() {
         return boards.get(currentBoardIndex);
+    }
+
+    public void resizeTiles(int newTileSize) {
+        for (BoardModel board : boards) {
+            board.resizeTiles(newTileSize);
+        }
+        // Resize player
+        player.resize(newTileSize);
+    }
+
+    public void setOffset(int xOffset, int yOffset) {
+        player.setOffset(xOffset, yOffset);
+        // Offset the board
+        getCurrentBoard().setOffset(xOffset, yOffset);
     }
 }

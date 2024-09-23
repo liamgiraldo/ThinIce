@@ -14,10 +14,18 @@ public class PlayerModel {
     private int lives;
     private Image texture;
 
+    private static int xOffset;
+    private static int yOffset;
+
     private int keys = 0;
 
     public boolean hasKey() {
         return keys > 0;
+    }
+
+    public void setOffset(int xOffset, int yOffset) {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
     }
 
     private enum state {
@@ -122,12 +130,19 @@ public class PlayerModel {
 
     public void draw(Graphics g) {
         if (texture != null && texture.getWidth(null) != -1 && texture.getHeight(null) != -1) {
-            g.drawImage(texture, this.x, this.y, cellSize, cellSize, null);
+            g.drawImage(texture, this.x+xOffset, this.y+yOffset, cellSize, cellSize, null);
 //            System.out.println("Drawing player at " + x + ", " + y);
 //            System.out.println("Texture width: " + texture.getWidth(null));
 //            System.out.println("Texture height: " + texture.getHeight(null));
         } else {
 //            System.out.println("Texture is not loaded properly.");
         }
+    }
+
+    public void resize(int newTileSize) {
+        cellSize = newTileSize;
+        //we also need to resize the player's position
+        x = col * cellSize;
+        y = row * cellSize;
     }
 }

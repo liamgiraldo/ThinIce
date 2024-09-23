@@ -4,15 +4,18 @@ import java.awt.*;
 
 public class CellModel {
 
-    private int cellSize = 50;
+    private static int cellSize = 50;
 
+    //these are cell coordinates
     private int x;
     private int y;
 
     public enum CellType {
         ICE, WALL, WATER, EMPTY, END, START, KEY, DOOR, MONEY, PUSHBLOCK, THICKICE
     }
+
     private CellType type;
+
     public CellModel(CellType type, int x, int y) {
         this.type = type;
         this.x = x;
@@ -47,24 +50,29 @@ public class CellModel {
         this.cellSize = cellSize;
     }
 
-    public void setX(int x){
+    public void setX(int x) {
         this.x = x;
     }
 
-    public void setY(int y){
+    public void setY(int y) {
         this.y = y;
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
 
-    public int getY(){
+    public int getY() {
         return y;
     }
 
-    public void draw(Graphics g, Image texture){ {
-        g.drawImage(texture, this.x * cellSize, this.y * cellSize, cellSize, cellSize, null);
+    public void draw(Graphics g, Image texture, int xOffset, int yOffset) {
+            g.drawImage(texture, this.x * cellSize + xOffset, this.y * cellSize + yOffset, cellSize, cellSize, null);
+        }
+
+
+        public void resize ( int newTileSize){
+            cellSize = newTileSize;
+        }
+
     }
-}
-}
