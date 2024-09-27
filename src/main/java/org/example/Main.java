@@ -29,9 +29,8 @@ public class Main {
                 frame.add(game);
                 frame.pack();
                 game.requestFocus();
-                frame.setVisible(true);
 
-                NavbarModel navbar = new NavbarModel();
+                NavbarModel navbar = new NavbarModel(game.getTextureController());
                 frame.add(navbar, BorderLayout.NORTH);
 
                 navbar.setRestartAction(()->{
@@ -39,6 +38,8 @@ public class Main {
                     game.requestFocus();
                 });
 
+
+                frame.setVisible(true);
                 // Set minimum size to prevent collapsing
 //                frame.setMinimumSize(new Dimension(400, 400));
 

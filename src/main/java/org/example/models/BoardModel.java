@@ -35,6 +35,21 @@ public class BoardModel {
         System.out.println(this);
     }
 
+    public BoardModel() {
+        this.cells = new CellModel[15][19];
+        this.originalCells = new CellModel[15][19];
+        for(int i = 0; i < cells.length; i++){
+            for(int j = 0; j < cells[i].length; j++){
+                cells[i][j] = new CellModel(CellModel.CellType.EMPTY, j, i);
+                originalCells[i][j] = new CellModel(CellModel.CellType.EMPTY, j, i);
+            }
+        }
+        this.startingX = 0;
+        this.startingY = 0;
+        this.endX = 1;
+        this.endY = 1;
+    }
+
     public void draw(Graphics g, TextureController textureController){
         for(int i = 0; i < cells.length; i++){
             for(int j = 0; j < cells[i].length; j++){

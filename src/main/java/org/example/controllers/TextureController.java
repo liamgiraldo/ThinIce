@@ -18,6 +18,26 @@ public class TextureController {
     private Image pushBlockImage;
     private Image thickIceImage;
 
+    private Image xbutton;
+    private Image savebutton;
+    private Image loadbutton;
+    private Image backbutton;
+    private Image frontbutton;
+    private Image eraserbutton;
+    private Image checkbutton;
+    private Image skullbutton;
+    private Image emptybutton;
+    private Image pufflebutton;
+    private Image flagbutton;
+    private Image icebutton;
+    private Image wallbutton;
+    private Image thickicebutton;
+    private Image pushblockbutton;
+    private Image moneybutton;
+    private Image doorbutton;
+    private Image keybutton;
+    private Image endbutton;
+
     public TextureController() {
         playerImage = loadImage("puffle.png");
         wallImage = loadImage("wall.png");
@@ -30,6 +50,27 @@ public class TextureController {
         moneyImage = loadImage("money.png");
         pushBlockImage = loadImage("pushblock.png");
         thickIceImage = loadImage("thickice.png");
+
+        xbutton = loadImage("xbutton.png");
+        savebutton = loadImage("savebutton.png");
+        loadbutton = loadImage("folderbutton.png");
+        backbutton = loadImage("backarrowbutton.png");
+        frontbutton = loadImage("frontarrowbutton.png");
+        eraserbutton = loadImage("eraserbutton.png");
+        checkbutton = loadImage("greencheckbutton.png");
+        skullbutton = loadImage("skullbutton.png");
+        emptybutton = loadImage("keycap.png");
+        pufflebutton = loadImage("pufflebutton.png");
+        flagbutton = loadImage("flagbutton.png");
+        icebutton = loadImage("icebutton.png");
+        wallbutton = loadImage("wallbutton.png");
+        thickicebutton = loadImage("thickicebutton.png");
+        pushblockbutton = loadImage("pushblockbutton.png");
+        moneybutton = loadImage("moneybutton.png");
+        doorbutton = loadImage("keyholebutton.png");
+        keybutton = loadImage("keybutton.png");
+        endbutton = loadImage("endbutton.png");
+
     }
 
     private Image loadImage(String path) {
@@ -64,6 +105,103 @@ public class TextureController {
 
     public Image getEndImage() {
         return endImage;
+    }
+
+
+    public Image getKeyImage() {
+        return keyImage;
+    }
+
+    public Image getDoorImage() {
+        return doorImage;
+    }
+
+    public Image getMoneyImage() {
+        return moneyImage;
+    }
+
+    public Image getPushBlockImage() {
+        return pushBlockImage;
+    }
+
+    public Image getThickIceImage() {
+        return thickIceImage;
+    }
+
+    public Image getXButton() {
+        return xbutton;
+    }
+
+    public Image getSaveButton() {
+        return savebutton;
+    }
+
+    public Image getLoadButton() {
+        return loadbutton;
+    }
+
+    public Image getBackButton() {
+        return backbutton;
+    }
+
+    public Image getFrontButton() {
+        return frontbutton;
+    }
+
+    public Image getEraserButton() {
+        return eraserbutton;
+    }
+
+    public Image getCheckButton() {
+        return checkbutton;
+    }
+
+    public Image getSkullButton() {
+        return skullbutton;
+    }
+
+    public Image getEmptyButton() {
+        return emptybutton;
+    }
+
+    public Image getPuffleButton() {
+        return pufflebutton;
+    }
+
+    public Image getFlagButton() {
+        return flagbutton;
+    }
+
+    public Image getIceButton() {
+        return icebutton;
+    }
+
+    public Image getWallButton() {
+        return wallbutton;
+    }
+
+    public Image getThickIceButton() {
+        return thickicebutton;
+    }
+
+    public Image getPushBlockButton() {
+        return pushblockbutton;
+    }
+
+    public Image getMoneyButton() {
+        return moneybutton;
+    }
+
+    public Image getDoorButton() {
+        return doorbutton;
+    }
+
+    public Image getKeyButton() {
+        return keybutton;
+    }
+
+    public Image getEndButton() {
+        return endbutton;
     }
 
     public Image getImageWithCellType(CellModel.CellType type) {

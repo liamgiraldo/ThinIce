@@ -77,4 +77,7 @@ public class ThinIce2 extends JPanel {
     public GameController getGameController() {
         return gameController;
     }
+    public TextureController getTextureController() {
+        return textureController;
+    }
 }

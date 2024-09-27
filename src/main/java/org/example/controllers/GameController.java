@@ -13,7 +13,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class GameController implements ActionListener, KeyListener {
-    private ArrayList<BoardModel> boards;
+    protected ArrayList<BoardModel> boards;
     private PlayerModel player;
     private TextureController textureController;
 
@@ -26,8 +26,8 @@ public class GameController implements ActionListener, KeyListener {
      * */
 
 
-    private int currentBoardIndex;
-    private Timer gameLoop;
+    protected int currentBoardIndex;
+    protected Timer gameLoop;
 
     public GameController(ArrayList<BoardModel> boards, TextureController textureController) {
         // Load textures
@@ -44,6 +44,10 @@ public class GameController implements ActionListener, KeyListener {
         player.setRow(getCurrentBoard().getStartingY());
 
         System.out.println("Timer started: " + gameLoop.isRunning());
+    }
+
+    public GameController(TextureController textureController) {
+        this.textureController = textureController;
     }
 
     @Override
@@ -274,7 +278,7 @@ public class GameController implements ActionListener, KeyListener {
         // Not used
     }
 
-    private BoardModel getCurrentBoard() {
+    protected BoardModel getCurrentBoard() {
         return boards.get(currentBoardIndex);
     }
 
